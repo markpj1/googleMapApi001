@@ -10,17 +10,31 @@ API Course, Lesson 1 -->
  </head>
  <body>
    <!-- TODO 1: Create a place to put the map in the HTML-->
-   <div></div>
+   <div id='map'></div>
    <script>
      // TODO: Create a map variable
+     var map;
 
      // TODO: Complete the following function to initialize the map
      function initMap() {
+       var latLng = {lat:38.235461, lng:-122.668858};
+
        // TODO: use a constructor to create a new map JS object. You can use the coordinates
        // we used, 40.7413549, -73.99802439999996 or your own!
+       map = new google.maps.Map(document.getElementById('map'), {
+        center: latLng,
+        zoom: 18
+      });
+      var marker = new google.maps.Marker({
+        position: latLng,
+        map: map,
+        title: 'Hello World!'
+      });
      }
    </script>
    <!--TODO: Load the JS API ASYNCHRONOUSLY below.-->
+   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVrC1KmX3J52-Eg4l8Mj79OioKmrWxE4E&callback=initMap"
+    async defer></script>
    <script>
    </script>
  </body>

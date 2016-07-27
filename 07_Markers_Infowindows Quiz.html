@@ -47,6 +47,16 @@ API Course, Lesson 1 -->
           margin-left: 10px;
         }
 
+        #zoom-to-area-text {
+          position: relative;
+          width: 70%;
+        }
+
+        #zoom-to-area {
+          width: 24%;
+        }
+
+
     </style>
 </head>
 
@@ -60,7 +70,13 @@ API Course, Lesson 1 -->
               <hr>
                 <span>draw a line</span>
                   <input id="toggle-drawing" type="button"  value="Drawing Tools">
-                </div>
+            </div>
+              <hr>
+          <div>
+            <input id="zoom-to-area-text" type="text" placeholder="Enter your favorite area">
+            <input id="zoom-to-area" type="button" name="name" value="Zoom">
+
+          </div>
 
         </div>
         <div id="map"></div>
@@ -312,6 +328,11 @@ API Course, Lesson 1 -->
             document.getElementById('toggle-drawing').addEventListener('click', function () {
               toggleDrawing(drawingManager);
             });
+
+            document.getElementById('zoom-to-area').addEventListener('click', function () {
+              zoomToArea();
+            });
+
       //Event listener so that the polygon is captured, call the
       //searchWithinPolygon function. This will show the markers in the polygon
       //and hide any outside of it.
@@ -434,6 +455,34 @@ API Course, Lesson 1 -->
             }
           }
         }
+
+        function zoomToArea () {
+          //Initialize the Geocoder
+          var geocoder = new google.maps.Geocoder();
+          //Get the address or place that the user entered.
+          var address = document.getElementById('zoom-to-area-text').value;
+          //Make sure address is not Blank
+          if (address === '') {
+            window.alert('You must enter an area, or address.');
+          }
+          else {
+            //Geocode the address/area entered to get the center. Then, center the maps
+            //on it and zoom in
+            geocoder.geocode(
+              { address: address,
+                componentRestrictions: {locality: 'New York'}
+            }, function(results, status) {
+              console.log('Results', results, 'Status ', status);
+              if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                map.setZoom(25);
+              }
+              else {
+                window.alert('We could not find that location - try entering a more' + ' specific place');
+              }
+            });
+          }
+         }
 
 
 
